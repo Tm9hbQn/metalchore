@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion';
 import { useAppState } from '../hooks/useAppState';
-import { ArrowRight, Skull, TrendingUp } from 'lucide-react';
+import { Skull, TrendingUp } from 'lucide-react';
 
-
-export const Cemetery = ({ onClose }: { onClose: () => void }) => {
+export const Cemetery = () => {
   const { tasks } = useAppState();
 
   const failedTasks = tasks.filter(t => t.status === 'failed');
@@ -20,13 +19,10 @@ export const Cemetery = ({ onClose }: { onClose: () => void }) => {
       initial={{ opacity: 0, x: -100 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -100 }}
-      className="fixed inset-0 bg-[#0A0A0A] z-[80] overflow-y-auto text-white p-6"
+      className="p-6 pb-24"
       dir="rtl"
     >
       <div className="flex items-center mb-8 gap-4 pt-4">
-        <button onClick={onClose} className="p-2 bg-white/5 rounded-full hover:bg-white/10">
-          <ArrowRight className="w-6 h-6" />
-        </button>
         <h2 className="text-2xl font-bold">בית הקברות ומאזני הצדק</h2>
       </div>
 
@@ -36,7 +32,7 @@ export const Cemetery = ({ onClose }: { onClose: () => void }) => {
             מי סוחב את הקשר הזה?
         </h3>
 
-        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl text-center relative overflow-hidden">
+        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl text-center relative overflow-hidden shadow-lg">
             <div className="absolute top-0 start-0 w-full h-1 bg-white/5">
                 <motion.div
                     initial={{ width: 0 }}

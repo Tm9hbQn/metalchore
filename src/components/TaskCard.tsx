@@ -11,18 +11,17 @@ export const TaskCard = ({ task, onClick, onSwipeRight }: { task: Task; onClick:
       layout
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, x: -100, scale: 0.9 }} // Exit towards the start (right in RTL, left in LTR visually, but we use x for swipe)
+      exit={{ opacity: 0, x: -100, scale: 0.9 }}
       whileTap={{ scale: 0.98 }}
       drag={onSwipeRight ? "x" : false}
-      dragConstraints={{ left: 0, right: 0 }} // We'll handle drag logically in RTL: swiping "right" visually in RTL means decreasing x or increasing x? Framer Motion x is absolute.
-      // In RTL, swiping visual right means positive x.
+      dragConstraints={{ left: 0, right: 0 }}
       onDragEnd={(_e, info) => {
         if (onSwipeRight && info.offset.x > 100) {
           onSwipeRight(task.id);
         }
       }}
       className={twMerge(
-        'p-4 rounded-xl mb-3 cursor-pointer select-none glass-card relative overflow-hidden',
+        'p-4 rounded-xl mb-3 cursor-pointer select-none glass-card relative overflow-hidden transition-all duration-300 hover:border-red-500/50 hover:shadow-[0_0_15px_rgba(138,3,3,0.2)]',
         isPurgatory ? 'border-red-500/50 shadow-[0_0_15px_rgba(138,3,3,0.3)]' : 'border-white/10'
       )}
       onClick={onClick}
@@ -43,8 +42,8 @@ export const TaskCard = ({ task, onClick, onSwipeRight }: { task: Task; onClick:
         </div>
 
         {task.deadline && (
-          <div className="flex items-center gap-1 text-xs text-gray-500 bg-black/40 px-2 py-1 rounded-md">
-            <Clock className="w-3 h-3" />
+          <div className="flex items-center gap-1 text-xs text-gray-400 bg-black/60 border border-white/5 px-2 py-1 rounded-md shadow-inner">
+            <Clock className="w-3 h-3 text-red-500" />
             <span>{task.deadline}</span>
           </div>
         )}

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-hell-bg: #0A0A0A;
-  --color-hell-card: rgba(255, 255, 255, 0.03);
+  --color-hell-bg: #161618;
+  --color-hell-card: rgba(255, 255, 255, 0.05);
   --color-hell-border: rgba(255, 255, 255, 0.1);
   --color-toxic-neon: #39FF14;
   --color-blood-red: #8A0303;
