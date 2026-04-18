@@ -25,6 +25,8 @@ export interface AppStateContextType {
   tasks: Task[];
   setTasks: Dispatch<SetStateAction<Task[]>>;
   currentUser: string;
+  userName: string;
+  partnerName: string;
   logs: string[];
   addLog: (msg: string) => void;
 }

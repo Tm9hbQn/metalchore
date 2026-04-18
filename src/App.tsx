@@ -19,7 +19,7 @@ const getGreeting = () => {
   if (hour >= 5 && hour < 12) return 'בוקר טוב, סאנשיין.';
   if (hour >= 12 && hour < 18) return 'צהריים טובים.';
   if (hour >= 18 && hour < 22) return 'ערב קשוח.';
-  return 'לילה טוב.';
+  return 'לילה טוב, סאנשיין.';
 };
 
 const PRELOADER_TEXTS = [
@@ -64,7 +64,7 @@ const MainApp = () => {
     setIsModalOpen(true);
   };
 
-  const handleLoginComplete = (user: { name: string; avatar: string; color: string }) => {
+  const handleLoginComplete = (user: { name: string; avatar: string; color: string; gender?: string }) => {
     localStorage.setItem('chores_user', JSON.stringify(user));
     setAppState('preloader');
   };
@@ -100,10 +100,11 @@ const MainApp = () => {
             key="splash"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.8 } }}
+            exit={{ opacity: 0 }}
             className="fixed inset-0 bg-[#f9fafb] z-[90] flex flex-col items-center justify-center text-black"
           >
             <motion.h1
+              layoutId="greeting-title"
               initial={{ scale: 0.8, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               transition={{ type: "spring", bounce: 0.5, duration: 1 }}
@@ -128,7 +129,7 @@ const MainApp = () => {
             <AnimatePresence mode="wait">
                 {currentTab === 'home' && (
                     <motion.div key="home" initial={{opacity: 0, x: -20}} animate={{opacity: 1, x: 0}} exit={{opacity: 0, x: 20}}>
-                        <Home onTaskClick={handleTaskClick} greeting={getGreeting()} />
+                        <Home onTaskClick={handleTaskClick} />
                     </motion.div>
                 )}
                 {currentTab === 'weekly' && (

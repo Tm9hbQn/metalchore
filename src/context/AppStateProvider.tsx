@@ -21,6 +21,21 @@ export const AppStateProvider = ({ children }: { children: ReactNode }) => {
 
   const [logs, setLogs] = useState<string[]>(['App initialized']);
   const currentUser = 'User1';
+  const [userName] = useState<string>(() => {
+    try {
+        const savedUserStr = localStorage.getItem('chores_user');
+        if (savedUserStr) {
+            const savedUser = JSON.parse(savedUserStr);
+            if (savedUser && savedUser.name) return savedUser.name;
+        }
+    } catch(e) {
+        console.error("Failed to parse user", e);
+    }
+    return 'אני';
+  });
+  const [partnerName] = useState<string>('בת זוג');
+
+
 
   // Save to localStorage whenever tasks change
   useEffect(() => {
@@ -40,7 +55,7 @@ export const AppStateProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <AppStateContext.Provider value={{ tasks, setTasks, currentUser, logs, addLog }}>
+    <AppStateContext.Provider value={{ tasks, setTasks, currentUser, userName, partnerName, logs, addLog }}>
       {children}
     </AppStateContext.Provider>
   );
