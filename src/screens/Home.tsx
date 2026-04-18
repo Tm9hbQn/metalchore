@@ -6,7 +6,7 @@ import { FAB } from '../components/FAB';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 
-export const Home = ({ onTaskClick, greeting }: { onTaskClick: (task: Task | null) => void; greeting: string }) => {
+export const Home = ({ onTaskClick }: { onTaskClick: (task: Task | null) => void; }) => {
   const { tasks, setTasks, addLog } = useAppState();
   const [toast, setToast] = useState<{ id: string; title: string } | null>(null);
 
@@ -67,20 +67,30 @@ export const Home = ({ onTaskClick, greeting }: { onTaskClick: (task: Task | nul
 
   return (
     <div className="pb-24 relative min-h-[80vh]" dir="rtl">
-      {/* Decorative background skulls/flames floating subtly */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-5">
-        <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="absolute top-10 left-10 text-6xl">💀</motion.div>
-        <motion.div animate={{ y: [0, 20, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute bottom-20 right-10 text-6xl">🔥</motion.div>
+      {/* Decorative background skulls/flames/bats floating subtly */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.07]">
+        {/* Static Moon */}
+        <div className="absolute top-8 left-12 text-7xl opacity-80 mix-blend-overlay">🌕</div>
+
+        {/* Floating entities */}
+        <motion.div animate={{ y: [0, -15, 0], rotate: [0, -5, 5, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute top-24 left-10 text-5xl">💀</motion.div>
+        <motion.div animate={{ y: [0, 20, 0], scale: [1, 1.1, 1] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute bottom-32 right-10 text-6xl text-red-900 drop-shadow-lg">🔥</motion.div>
+        <motion.div animate={{ y: [0, -10, 0], rotate: [0, 5, -5, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="absolute top-48 right-16 text-5xl">🦇</motion.div>
+        <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="absolute bottom-10 left-20 text-6xl">🪦</motion.div>
+
+        {/* Bird flying across screen */}
+        <motion.div
+            initial={{ x: '120vw', y: 50 }}
+            animate={{ x: '-20vw', y: 100 }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear", delay: 3 }}
+            className="absolute text-4xl"
+        >
+            🦅
+        </motion.div>
       </div>
 
       <main className="p-4 pt-6 relative z-10">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-3xl font-black mb-6 text-black drop-shadow-sm"
-        >
-          {greeting}
-        </motion.h1>
+
 
         <h2 className="text-sm text-red-600 mb-4 font-bold tracking-wider uppercase flex items-center gap-2">
             <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
@@ -102,7 +112,7 @@ export const Home = ({ onTaskClick, greeting }: { onTaskClick: (task: Task | nul
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center mt-20 text-gray-800 flex flex-col items-center bg-white border-2 border-black p-8 rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            className="text-center mt-20 text-gray-800 flex flex-col items-center bg-white border-2 border-red-900 p-8 rounded-2xl shadow-[4px_4px_0px_0px_rgba(127,29,29,1)]"
           >
             <span className="text-6xl mb-4 grayscale drop-shadow-md">🥶</span>
             <p className="text-xl font-black text-black">הגיהנום קפא.</p>

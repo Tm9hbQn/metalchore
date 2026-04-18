@@ -2,26 +2,33 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Dices } from 'lucide-react';
 
-const AVATARS = ['💀', '😈', '😾', '🦇', '🔥'];
+const AVATARS = ['💀', '😈', '😾', '🦇', '🔥', '🧟', '🧛', '🦅', '🕷️', '🕸️'];
 
 const NAMES_MALE = ['אדון האופל', 'שד משחת', 'מלך השאול', 'רוח רפאים', 'לוציפר קטן'];
 const NAMES_FEMALE = ['מלכת האופל', 'שדה קטנה', 'נסיכת השאול', 'ערפדית', 'מכשפה מדופלמת'];
 
-export const Login = ({ onComplete }: { onComplete: (user: { name: string; avatar: string; color: string }) => void }) => {
+export const Login = ({ onComplete }: { onComplete: (user: { name: string; avatar: string; color: string; gender?: string }) => void }) => {
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState(AVATARS[0]);
   const [color, setColor] = useState('#EF4444');
+  const [gender, setGender] = useState<'male' | 'female'>('male');
+
+  const generateRandomName = () => {
+    const isFemale = gender === 'female';
+    const list = isFemale ? NAMES_FEMALE : NAMES_MALE;
+    const newName = list[Math.floor(Math.random() * list.length)];
+    setName(newName);
+  };
 
   // Do not auto-focus the input
   useEffect(() => {
-    generateRandomName();
-  }, []);
-
-  function generateRandomName() {
-      const isFemale = Math.random() > 0.5;
-      const list = isFemale ? NAMES_FEMALE : NAMES_MALE;
-      setName(list[Math.floor(Math.random() * list.length)]);
-  };
+    // Generate name but don't warn about state in effect, as it's intended here on gender change
+    const isFemale = gender === 'female';
+    const list = isFemale ? NAMES_FEMALE : NAMES_MALE;
+    const newName = list[Math.floor(Math.random() * list.length)];
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setName(newName);
+  }, [gender]);
 
   const handleSuggestName = (suggestion: string) => {
       setName(suggestion);
@@ -30,7 +37,7 @@ export const Login = ({ onComplete }: { onComplete: (user: { name: string; avata
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim()) {
-      onComplete({ name: name.trim(), avatar, color });
+      onComplete({ name: name.trim(), avatar, color, gender });
     }
   };
 
@@ -49,24 +56,30 @@ export const Login = ({ onComplete }: { onComplete: (user: { name: string; avata
           <div className="text-start">
             <label className="block text-sm font-bold text-gray-700 mb-2">איך קוראים לכם?</label>
 
-            <div className="flex flex-wrap gap-2 mb-3">
-                <button type="button" onClick={() => handleSuggestName(NAMES_MALE[0])} className="text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded-md border border-gray-300 transition-colors">אדון האופל</button>
-                <button type="button" onClick={() => handleSuggestName(NAMES_FEMALE[0])} className="text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded-md border border-gray-300 transition-colors">מלכת האופל</button>
+            <div className="flex gap-2 mb-4">
+              <button type="button" onClick={() => setGender('male')} className={`flex-1 py-2 rounded-lg border-2 font-bold transition-all ${gender === 'male' ? 'border-black bg-black text-white shadow-[2px_2px_0px_0px_rgba(220,38,38,1)]' : 'border-gray-300 bg-white text-gray-500'}`}>זכר</button>
+              <button type="button" onClick={() => setGender('female')} className={`flex-1 py-2 rounded-lg border-2 font-bold transition-all ${gender === 'female' ? 'border-black bg-black text-white shadow-[2px_2px_0px_0px_rgba(220,38,38,1)]' : 'border-gray-300 bg-white text-gray-500'}`}>נקבה</button>
             </div>
 
-            <div className="relative">
+            <div className="flex flex-wrap gap-2 mb-3">
+                {(gender === 'female' ? NAMES_FEMALE : NAMES_MALE).slice(0, 3).map(n => (
+                    <button key={n} type="button" onClick={() => handleSuggestName(n)} className="text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded-md border border-gray-300 transition-colors">{n}</button>
+                ))}
+            </div>
+
+            <div className="flex gap-2 items-center">
                 <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full bg-white border-2 border-black rounded-xl p-4 text-black focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-200 transition-all text-lg text-start shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] pr-12"
+                className="flex-1 bg-white border-2 border-black rounded-xl p-4 text-black focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-200 transition-all text-lg text-start shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] w-full"
                 placeholder="הכנס שם ציני כאן..."
                 />
                 <button
                     type="button"
                     onClick={generateRandomName}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors"
+                    className="p-4 bg-white border-2 border-black rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100 transition-colors shrink-0 flex items-center justify-center text-black h-full"
                     title="רנדום שם"
                 >
                     <Dices className="w-6 h-6" />
@@ -76,7 +89,7 @@ export const Login = ({ onComplete }: { onComplete: (user: { name: string; avata
 
           <div className="text-start">
             <label className="block text-sm font-bold text-gray-700 mb-2">בחרו פרצוף</label>
-            <div className="flex justify-center gap-4 text-3xl bg-white p-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="flex flex-wrap justify-center gap-4 text-3xl bg-white p-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               {AVATARS.map((a) => (
                 <button
                   key={a}

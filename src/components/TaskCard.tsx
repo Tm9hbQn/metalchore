@@ -2,17 +2,19 @@ import { motion } from 'framer-motion';
 import type { Task } from '../types';
 import { Clock, User, Users, RefreshCw, AlertTriangle } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
+import { useAppState } from '../hooks/useAppState';
 
 export const TaskCard = ({ task, onClick, onSwipeRight }: { task: Task; onClick: () => void; onSwipeRight?: (id: string) => void }) => {
+  const { userName, partnerName } = useAppState();
   const isPurgatory = task.status === 'purgatory';
 
   const getAssigneeConfig = (assignee: string) => {
     switch(assignee) {
-      case 'me': return { label: 'אני', icon: User, color: 'bg-green-100 text-green-700 border-green-300' };
-      case 'partner': return { label: 'שותף', icon: User, color: 'bg-blue-100 text-blue-700 border-blue-300' };
+      case 'me': return { label: userName || 'אני', icon: User, color: 'bg-green-100 text-green-700 border-green-300' };
+      case 'partner': return { label: partnerName || 'שותף', icon: User, color: 'bg-blue-100 text-blue-700 border-blue-300' };
       case 'both': return { label: 'שנינו', icon: Users, color: 'bg-purple-100 text-purple-700 border-purple-300' };
       case 'rotation': return { label: 'תורנות', icon: RefreshCw, color: 'bg-orange-100 text-orange-700 border-orange-300' };
-      default: return { label: 'אני', icon: User, color: 'bg-green-100 text-green-700 border-green-300' };
+      default: return { label: userName || 'אני', icon: User, color: 'bg-green-100 text-green-700 border-green-300' };
     }
   };
 

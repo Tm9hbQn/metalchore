@@ -9,7 +9,7 @@ import { Checkbox } from '../components/Checkbox';
 export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () => void }) => {
   const [isEditing, setIsEditing] = useState(!task);
   const [isLoading, setIsLoading] = useState(false);
-  const { addLog, setTasks } = useAppState();
+  const { addLog, setTasks, userName, partnerName } = useAppState();
 
   const [title, setTitle] = useState(task?.title || '');
   const [assignee, setAssignee] = useState(task?.assignee || 'me');
@@ -168,12 +168,12 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
                   <button
                     onClick={() => setAssignee('me')}
                     className={`p-3 rounded-lg border text-center flex items-center justify-center gap-2 ${assignee === 'me' ? 'bg-green-500/20 border-green-500 text-green-400' : 'bg-white/5 border-transparent hover:border-white/20'}`}>
-                    <User className="w-4 h-4" /> אני
+                    <User className="w-4 h-4" /> {userName}
                   </button>
                   <button
                     onClick={() => setAssignee('partner')}
                     className={`p-3 rounded-lg border text-center flex items-center justify-center gap-2 ${assignee === 'partner' ? 'bg-red-500/20 border-red-500 text-red-400' : 'bg-white/5 border-transparent hover:border-white/20'}`}>
-                    השותף
+                    {partnerName}
                   </button>
                   <button
                     onClick={() => setAssignee('rotation')}
