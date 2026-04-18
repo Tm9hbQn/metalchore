@@ -8,6 +8,7 @@ import { Cemetery } from './screens/Cemetery';
 import { SecretAltar } from './screens/SecretAltar';
 import { TaskModal } from './screens/TaskModal';
 import { Login } from './screens/Login';
+import { WeeklyView } from './screens/WeeklyView';
 import { BottomSheet } from './components/BottomSheet';
 import { BottomNav, type TabType } from './components/BottomNav';
 import { TopBar } from './components/TopBar';
@@ -73,10 +74,7 @@ const MainApp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#161618] text-white flex flex-col relative overflow-hidden">
-      {/* Background ambient light */}
-      <div className="fixed top-0 inset-x-0 h-64 bg-red-900/10 blur-[100px] pointer-events-none" />
-
+    <div className="min-h-screen bg-[#f9fafb] text-black flex flex-col relative overflow-hidden">
       <AnimatePresence mode="wait">
         {appState === 'preloader' && (
           <motion.div
@@ -84,7 +82,7 @@ const MainApp = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.5 } }}
-            className="fixed inset-0 bg-[#161618] z-[100] flex flex-col items-center justify-center text-white"
+            className="fixed inset-0 bg-[#f9fafb] z-[100] flex flex-col items-center justify-center text-black"
           >
              <motion.div
               animate={{ rotate: 360 }}
@@ -93,7 +91,7 @@ const MainApp = () => {
             >
               ⏳
             </motion.div>
-            <p className="text-gray-500 mt-2 font-mono">{preloaderText}</p>
+            <p className="text-gray-500 mt-2 font-bold">{preloaderText}</p>
           </motion.div>
         )}
 
@@ -103,13 +101,13 @@ const MainApp = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.8 } }}
-            className="fixed inset-0 bg-[#161618] z-[90] flex flex-col items-center justify-center text-white"
+            className="fixed inset-0 bg-[#f9fafb] z-[90] flex flex-col items-center justify-center text-black"
           >
             <motion.h1
               initial={{ scale: 0.8, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               transition={{ type: "spring", bounce: 0.5, duration: 1 }}
-              className="text-5xl font-bold bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent text-center px-4 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]"
+              className="text-5xl font-black text-red-600 text-center px-4 drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]"
             >
               {getGreeting()}
             </motion.h1>
@@ -119,18 +117,23 @@ const MainApp = () => {
 
       {(appState === 'main' || appState === 'splash') && (
         <motion.div
-           className="flex-1 flex flex-col z-10"
+           className="flex-1 flex flex-col z-10 h-full"
            initial={appState === 'splash' ? { opacity: 0, y: 50 } : { opacity: 1, y: 0 }}
            animate={{ opacity: 1, y: 0 }}
            transition={{ staggerChildren: 0.1, delayChildren: 0.5, type: "spring", bounce: 0.2 }}
         >
           <TopBar />
 
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto bg-[#f9fafb]">
             <AnimatePresence mode="wait">
                 {currentTab === 'home' && (
                     <motion.div key="home" initial={{opacity: 0, x: -20}} animate={{opacity: 1, x: 0}} exit={{opacity: 0, x: 20}}>
                         <Home onTaskClick={handleTaskClick} greeting={getGreeting()} />
+                    </motion.div>
+                )}
+                {currentTab === 'weekly' && (
+                    <motion.div key="weekly" initial={{opacity: 0, x: -20}} animate={{opacity: 1, x: 0}} exit={{opacity: 0, x: 20}}>
+                        <WeeklyView onTaskClick={handleTaskClick} />
                     </motion.div>
                 )}
                 {currentTab === 'cemetery' && (

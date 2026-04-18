@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import { Flame, Skull, Settings } from 'lucide-react';
+import { Flame, Skull, Settings, CalendarDays } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
-export type TabType = 'home' | 'cemetery' | 'settings';
+export type TabType = 'home' | 'weekly' | 'cemetery' | 'settings';
 
 interface BottomNavProps {
   currentTab: TabType;
@@ -10,14 +10,17 @@ interface BottomNavProps {
 }
 
 export const BottomNav = ({ currentTab, setCurrentTab }: BottomNavProps) => {
+  // In RTL, the array is rendered from right to left natively by flex.
+  // We want Home to be on the far right, so it should be the FIRST item in the array for an RTL container with default flex-row.
   const tabs = [
+    { id: 'home', label: 'ראשי', icon: Flame },
+    { id: 'weekly', label: 'לו"ז שבועי', icon: CalendarDays },
+    { id: 'cemetery', label: 'בית קברות', icon: Skull },
     { id: 'settings', label: 'הגדרות', icon: Settings },
-    { id: 'cemetery', label: 'קברות', icon: Skull },
-    { id: 'home', label: 'עינויים', icon: Flame },
   ] as const;
 
   return (
-    <nav className="fixed bottom-0 start-0 end-0 glass-card border-t border-red-500/20 bg-black/80 z-40 pb-safe">
+    <nav className="fixed bottom-0 start-0 end-0 bg-white border-t border-gray-200 z-40 pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]" dir="rtl">
       <div className="flex justify-around items-center p-2 h-16">
         {tabs.map((tab) => {
           const isActive = currentTab === tab.id;
@@ -29,15 +32,15 @@ export const BottomNav = ({ currentTab, setCurrentTab }: BottomNavProps) => {
               onClick={() => setCurrentTab(tab.id as TabType)}
               className={twMerge(
                 'flex flex-col items-center justify-center w-full h-full gap-1 transition-colors relative',
-                isActive ? 'text-red-500' : 'text-gray-500 hover:text-gray-300'
+                isActive ? 'text-black' : 'text-gray-400 hover:text-gray-600'
               )}
             >
-              <Icon className={twMerge('w-6 h-6', isActive ? 'drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]' : '')} />
-              <span className="text-[10px] font-bold">{tab.label}</span>
+              <Icon className={twMerge('w-6 h-6', isActive ? 'text-red-600' : '')} />
+              <span className={twMerge("text-[10px] font-bold", isActive ? "text-black" : "text-gray-400")}>{tab.label}</span>
               {isActive && (
                 <motion.div
                   layoutId="bottom-nav-indicator"
-                  className="absolute -top-2 w-8 h-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full"
+                  className="absolute -top-2 w-8 h-1 bg-red-600 rounded-full"
                   transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                 />
               )}
