@@ -7,6 +7,7 @@ export const Checkbox = ({ checked, onChange, label }: { checked: boolean; onCha
     <div
       className="flex items-center gap-4 cursor-pointer p-2 rounded-lg hover:bg-white/5 transition-colors"
       onClick={onChange}
+      dir="rtl"
     >
       <motion.div
         layout
@@ -27,7 +28,7 @@ export const Checkbox = ({ checked, onChange, label }: { checked: boolean; onCha
             layoutId={`strikethrough-${label}`}
             initial={{ width: 0 }}
             animate={{ width: '100%' }}
-            className="absolute top-1/2 left-0 h-0.5 bg-gray-500 -translate-y-1/2"
+            className="absolute top-1/2 start-0 h-0.5 bg-gray-500 -translate-y-1/2"
           />
         )}
       </span>

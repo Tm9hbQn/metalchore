@@ -18,7 +18,7 @@ export const BottomSheet = ({ isOpen, onClose, children }: { isOpen: boolean; on
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-[#111] rounded-t-3xl border-t border-white/10 p-6 shadow-2xl max-h-[90vh] overflow-y-auto overscroll-contain"
+            className="fixed bottom-0 start-0 end-0 z-50 bg-[#111] rounded-t-3xl border-t border-white/10 p-6 shadow-2xl max-h-[90vh] overflow-y-auto overscroll-contain"
           >
             <div className="w-12 h-1.5 bg-gray-600 rounded-full mx-auto mb-6 opacity-50" />
             {children}

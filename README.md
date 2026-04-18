@@ -1,73 +1,49 @@
-# React + TypeScript + Vite
+# Chores in Hell 😈
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+אפליקציה לניהול מטלות בית לזוגות, המשתמשת בהומור ציני, אסתטיקה של מטאל ("גיהנום", "עינויים", "כור המצרף") וגיימיפיקציה כדי לפרוק מתחים.
 
-Currently, two official plugins are available:
+## 🚀 התקנה והרצה מקומית
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. שכפלו את המאגר (Clone).
+2. התקינו תלויות: `npm install`
+3. הריצו סביבת פיתוח: `npm run dev`
 
-## React Compiler
+## 🛠 הגדרת שרת ומסד נתונים (Supabase) - שלב הבא
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+כדי להפוך את האפליקציה למערכת אמיתית עם סנכרון זמן-אמת, יש לחבר את סופרבייס (Supabase):
 
-## Expanding the ESLint configuration
+1. **יצירת פרויקט:** פתחו חשבון ב-[Supabase](https://supabase.com) וצרו פרויקט חדש.
+2. **משתני סביבה:** צרו קובץ `.env.local` בשורש הפרויקט והדביקו את הערכים מלוח הבקרה שלכם (Project Settings -> API):
+   ```env
+   VITE_SUPABASE_URL=https://your-project.supabase.co
+   VITE_SUPABASE_ANON_KEY=your-anon-key
+   ```
+3. **הגדרת מסד נתונים (SQL):**
+   *כנסו ל-SQL Editor בסופרבייס והריצו את הסכמה (תצורף לקוד בעתיד) כדי ליצור טבלאות `tasks`, `users`, ו-`history`.*
+4. **חיבור Google Auth (התחברות משתמשים):**
+   * ב-Supabase, תחת `Authentication > Providers`, הדליקו את **Google**.
+   * הכניסו את ה-`Client ID` וה-`Client Secret` שקיבלתם מ-[Google Cloud Console](https://console.cloud.google.com).
+   * **הערה חשובה:** מכיוון שרק שני אנשים ישתמשו באפליקציה, ניתן להוסיף את המיילים שלכם ל-Test Users ב-Google Cloud Console, ללא צורך בהעברת האפליקציה ל-Production Verification.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📱 PWA (התקנה על מסך הבית)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+האפליקציה מוגדרת כ-PWA (Progressive Web App).
+כאשר היא עולה לאוויר (GitHub Pages), היכנסו אליה דרך הסמארטפון (ספארי ב-iOS או כרום באנדרואיד):
+* **iOS:** לחצו על לחצן השיתוף -> "הוסף למסך הבית" (Add to Home Screen).
+* **Android:** הדפדפן יציע אוטומטית להתקין, או לחצו על התפריט (שלוש נקודות) -> "הוסף למסך הבית".
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+האפליקציה תרוץ במסך מלא ללא שורת כתובת, בדיוק כמו אפליקציה רגילה (Standalone).
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🚑 קונסולת דיבאג למפתחים (The Secret Altar)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+במקרה של שגיאות:
+1. לחצו על גלגל השיניים (הגדרות).
+2. לחצו **5 פעמים** ברצף על הלוגו/גרסה.
+3. ייפתח מסך ה-Debug. לחצו על הכפתור כדי להעתיק את כל ה-State ולהדביק לסוכן ה-AI המועדף עליכם (Jules, Claude, Gemini) לפתרון מהיר.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ פריסה אוטומטית (CI/CD)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+הפרויקט מוגדר להעלות גרסה חדשה אוטומטית ל-**GitHub Pages** בכל דחיפה (Push) לענף `main`, באמצעות GitHub Actions.
+
+---
+*פרויקט זה נכתב בסיוע קוד ומתוחזק על ידי סוכני AI. אנא עיינו בתיקיית `.ai/` למידע נוסף.*
