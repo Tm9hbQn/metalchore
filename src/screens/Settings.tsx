@@ -1,45 +1,82 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { LogOut, Bell, Sun, Skull, ShieldAlert } from 'lucide-react';
+import { useRef } from 'react';
 
 export const Settings = ({ onSecretAccess }: { onSecretAccess: () => void }) => {
-  const [clicks, setClicks] = useState(0);
+  const clickCountRef = useRef(0);
+
+  const handleLogout = () => {
+    localStorage.removeItem('chores_user');
+    window.location.reload();
+  };
 
   const handleLogoClick = () => {
-    const newClicks = clicks + 1;
-    setClicks(newClicks);
-    if (newClicks >= 5) {
+    clickCountRef.current++;
+    if (clickCountRef.current >= 5) {
       onSecretAccess();
-      setClicks(0);
+      clickCountRef.current = 0;
     }
+    setTimeout(() => { clickCountRef.current = 0; }, 2000);
   };
 
   return (
-    <div className="p-6 pb-24 h-full flex flex-col items-center pt-20">
-      <div className="text-center w-full max-w-sm">
-        <motion.div
-          onClick={handleLogoClick}
-          whileTap={{ scale: 0.9 }}
-          className="w-32 h-32 bg-gradient-to-br from-red-800 to-[#161618] rounded-full mx-auto mb-8 flex items-center justify-center border-2 border-red-900/50 cursor-pointer select-none shadow-[0_0_20px_rgba(138,3,3,0.5)]"
-        >
-          <span className="text-5xl drop-shadow-[0_0_10px_rgba(255,0,0,0.8)]">🔥</span>
-        </motion.div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      className="p-6 pb-24"
+      dir="rtl"
+    >
+      <h2 className="text-3xl font-black mb-8 text-black drop-shadow-sm">הגדרות וקללות</h2>
 
-        <div className="glass-card p-6 rounded-2xl mb-8">
-            <h2 className="text-2xl font-bold mb-2 text-red-100">הגדרות המערכת</h2>
-            <p className="text-gray-400 text-sm">שום דבר לא יעזור לכם כאן. הכל כבר חתום בדם.</p>
+      <div className="space-y-4">
+        <div className="bg-white border-2 border-black rounded-2xl p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <h3 className="text-sm font-bold text-gray-500 mb-4 uppercase tracking-wider">העדפות</h3>
+
+            <button className="w-full flex items-center justify-between py-3 border-b-2 border-dashed border-gray-200 group">
+                <div className="flex items-center gap-3">
+                    <Bell className="w-5 h-5 text-gray-600 group-hover:text-black transition-colors" />
+                    <span className="font-bold text-gray-800">התראות מציקות</span>
+                </div>
+                <div className="w-12 h-6 bg-red-600 rounded-full border-2 border-black relative transition-colors shadow-inner">
+                    <div className="absolute left-1 top-0.5 w-4 h-4 bg-white border-2 border-black rounded-full" />
+                </div>
+            </button>
+
+            <button className="w-full flex items-center justify-between py-3 group">
+                <div className="flex items-center gap-3">
+                    <Sun className="w-5 h-5 text-gray-600 group-hover:text-black transition-colors" />
+                    <span className="font-bold text-gray-800">מצב בהיר (מופעל)</span>
+                </div>
+            </button>
         </div>
 
-        <div className="flex flex-col gap-3">
-            <button className="glass-card p-4 rounded-xl text-start font-bold text-gray-300 hover:text-white hover:border-red-500/30 transition-all">
-                התראות (בקרוב)
-            </button>
-            <button className="glass-card p-4 rounded-xl text-start font-bold text-gray-300 hover:text-white hover:border-red-500/30 transition-all">
-                החלף שותף (לא באמת)
+        <div className="bg-white border-2 border-black rounded-2xl p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mt-6">
+            <h3 className="text-sm font-bold text-gray-500 mb-4 uppercase tracking-wider">סכנה</h3>
+
+            <button
+                onClick={handleLogout}
+                className="w-full flex items-center justify-between py-3 group"
+            >
+                <div className="flex items-center gap-3">
+                    <LogOut className="w-5 h-5 text-red-600" />
+                    <span className="font-bold text-red-600">ביטול חוזה (התנתקות)</span>
+                </div>
             </button>
         </div>
-
-        <p className="text-gray-700 text-xs mt-12 font-mono">גרסה 0.0.1 PWA | נבנה עם שדים</p>
       </div>
-    </div>
+
+      <div className="mt-12 text-center">
+        <button onClick={handleLogoClick} className="inline-block transition-transform active:scale-95">
+          <ShieldAlert className="w-12 h-12 text-gray-300 hover:text-red-500 mx-auto transition-colors" />
+        </button>
+        <p className="text-xs font-bold text-gray-400 mt-2">Chores in Hell v1.0</p>
+        <p className="text-xs text-gray-400 mt-1 flex items-center justify-center gap-1">
+            <Skull className="w-3 h-3" />
+            Made with hate.
+        </p>
+      </div>
+
+    </motion.div>
   );
 };
