@@ -35,8 +35,9 @@ export const BottomNav = ({ currentTab, setCurrentTab }: BottomNavProps) => {
               key={tab.id}
               whileTap={{ scale: 0.9 }}
               onClick={() => handleTabClick(tab.id as TabType)}
+              aria-current={isActive ? "page" : undefined}
               className={twMerge(
-                'flex flex-col items-center justify-center w-full h-full gap-1 transition-colors relative',
+                'flex flex-col items-center justify-center w-full h-full gap-1 transition-colors relative focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg',
                 isActive ? 'text-black' : 'text-gray-400 hover:text-gray-600'
               )}
             >

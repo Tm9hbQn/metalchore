@@ -49,8 +49,16 @@ export const TaskCard = ({ task, onClick, onSwipeRight }: { task: Task; onClick:
           onSwipeRight(task.id);
         }
       }}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       className={twMerge(
-        'p-4 rounded-xl mb-3 cursor-pointer select-none relative overflow-hidden transition-all duration-200 group border-2',
+        'p-4 rounded-xl mb-3 cursor-pointer select-none relative overflow-hidden transition-all duration-200 group border-2 focus-visible:ring-2 focus-visible:ring-blue-500 focus:outline-none',
         isOverdue ? 'bg-red-50 border-red-300 shadow-sm' :
         isRescheduled ? 'bg-green-50 border-green-300 shadow-sm' :
         'startup-card idle-float bg-white'
