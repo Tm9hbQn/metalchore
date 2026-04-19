@@ -5,7 +5,16 @@ import { clsx } from 'clsx';
 export const Checkbox = ({ checked, onChange, label }: { checked: boolean; onChange: () => void; label: string }) => {
   return (
     <div
-      className="flex items-center gap-4 cursor-pointer p-2 rounded-lg hover:bg-white/5 transition-colors"
+      role="checkbox"
+      aria-checked={checked}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onChange();
+        }
+      }}
+      className="flex items-center gap-4 cursor-pointer p-2 rounded-lg hover:bg-white/5 transition-colors focus-visible:ring-2 focus-visible:ring-white focus:outline-none"
       onClick={onChange}
       dir="rtl"
     >

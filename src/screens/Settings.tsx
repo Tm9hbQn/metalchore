@@ -33,7 +33,7 @@ export const Settings = ({ onSecretAccess }: { onSecretAccess: () => void }) => 
         <div className="bg-white border-2 border-black rounded-2xl p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <h3 className="text-sm font-bold text-gray-500 mb-4 uppercase tracking-wider">העדפות</h3>
 
-            <button className="w-full flex items-center justify-between py-3 border-b-2 border-dashed border-gray-200 group">
+            <button role="switch" aria-checked="true" className="w-full flex items-center justify-between py-3 border-b-2 border-dashed border-gray-200 group focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg">
                 <div className="flex items-center gap-3">
                     <Bell className="w-5 h-5 text-gray-600 group-hover:text-black transition-colors" />
                     <span className="font-bold text-gray-800">התראות מציקות</span>
@@ -43,7 +43,7 @@ export const Settings = ({ onSecretAccess }: { onSecretAccess: () => void }) => 
                 </div>
             </button>
 
-            <button className="w-full flex items-center justify-between py-3 group">
+            <button role="switch" aria-checked="true" className="w-full flex items-center justify-between py-3 group focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg">
                 <div className="flex items-center gap-3">
                     <Sun className="w-5 h-5 text-gray-600 group-hover:text-black transition-colors" />
                     <span className="font-bold text-gray-800">מצב בהיר (מופעל)</span>
@@ -67,7 +67,7 @@ export const Settings = ({ onSecretAccess }: { onSecretAccess: () => void }) => 
       </div>
 
       <div className="mt-12 text-center">
-        <button onClick={handleLogoClick} className="inline-block transition-transform active:scale-95">
+        <button onClick={handleLogoClick} aria-label="מסך מפתחים סודי" className="inline-block transition-transform active:scale-95 focus-visible:ring-2 focus-visible:ring-red-500 rounded-lg">
           <ShieldAlert className="w-12 h-12 text-gray-300 hover:text-red-500 mx-auto transition-colors" />
         </button>
         <p className="text-xs font-bold text-gray-400 mt-2">Chores in Hell v1.0</p>

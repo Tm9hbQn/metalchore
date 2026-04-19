@@ -54,7 +54,7 @@ export const Login = ({ onComplete }: { onComplete: (user: { name: string; avata
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="text-start">
-            <label className="block text-sm font-bold text-gray-700 mb-2">איך קוראים לכם?</label>
+            <label htmlFor="name-input" className="block text-sm font-bold text-gray-700 mb-2">איך קוראים לכם?</label>
 
             <div className="flex gap-2 mb-4">
               <button type="button" onClick={() => setGender('male')} className={`flex-1 py-2 rounded-lg border-2 font-bold transition-all ${gender === 'male' ? 'border-black bg-black text-white shadow-[2px_2px_0px_0px_rgba(220,38,38,1)]' : 'border-gray-300 bg-white text-gray-500'}`}>זכר</button>
@@ -69,6 +69,7 @@ export const Login = ({ onComplete }: { onComplete: (user: { name: string; avata
 
             <div className="flex gap-2 items-center">
                 <input
+                id="name-input"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -78,6 +79,7 @@ export const Login = ({ onComplete }: { onComplete: (user: { name: string; avata
                 />
                 <button
                     type="button"
+                    aria-label="הגרל שם"
                     onClick={generateRandomName}
                     className="p-4 bg-white border-2 border-black rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100 transition-colors shrink-0 flex items-center justify-center text-black h-full"
                     title="רנדום שם"
@@ -89,11 +91,13 @@ export const Login = ({ onComplete }: { onComplete: (user: { name: string; avata
 
           <div className="text-start">
             <label className="block text-sm font-bold text-gray-700 mb-2">בחרו פרצוף</label>
-            <div className="flex flex-wrap justify-center gap-4 text-3xl bg-white p-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div role="radiogroup" aria-label="בחירת אווטאר" className="flex flex-wrap justify-center gap-4 text-3xl bg-white p-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               {AVATARS.map((a) => (
                 <button
                   key={a}
                   type="button"
+                  role="radio"
+                  aria-checked={avatar === a}
                   onClick={() => setAvatar(a)}
                   className={`p-2 rounded-full transition-all ${avatar === a ? 'bg-red-100 scale-125 border border-red-300' : 'opacity-50 hover:opacity-100'}`}
                 >
@@ -105,11 +109,13 @@ export const Login = ({ onComplete }: { onComplete: (user: { name: string; avata
 
           <div className="text-start">
             <label className="block text-sm font-bold text-gray-700 mb-2">צבע ההילה שלכם</label>
-            <div className="flex justify-center gap-4 bg-white p-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div role="radiogroup" aria-label="בחירת צבע הילה" className="flex justify-center gap-4 bg-white p-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               {['#EF4444', '#10B981', '#3B82F6', '#F59E0B'].map((c) => (
                 <button
                   key={c}
                   type="button"
+                  role="radio"
+                  aria-checked={color === c}
                   onClick={() => setColor(c)}
                   className="w-8 h-8 rounded-full border-2 transition-transform hover:scale-110"
                   style={{ backgroundColor: c, borderColor: color === c ? 'black' : 'transparent', transform: color === c ? 'scale(1.2)' : 'scale(1)' }}
