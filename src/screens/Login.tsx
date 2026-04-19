@@ -50,7 +50,7 @@ export const Login = ({ onComplete }: { onComplete: (user: { name: string; avata
         className="w-full max-w-sm"
       >
         <h1 className="text-4xl font-black mb-2 text-red-600 drop-shadow-sm">חתימת החוזה</h1>
-        <p className="text-gray-600 mb-8 font-medium">ברוכים הבאים לגיהנום. בחרו את האווטאר שלכם בחוכמה, כי אין דרך חזרה.</p>
+        <p className="text-gray-600 mb-8 font-medium">ברוכים הבאים. בחרו את האווטאר שלכם בחוכמה, כי אין דרך חזרה.</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="text-start">
@@ -121,9 +121,9 @@ export const Login = ({ onComplete }: { onComplete: (user: { name: string; avata
           <motion.button
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full bg-black text-white font-black text-lg py-4 rounded-xl flex items-center justify-center gap-2 mt-8 shadow-[4px_4px_0px_0px_rgba(220,38,38,1)] border-2 border-red-600 hover:bg-gray-900 transition-colors"
+            className="w-full bg-blue-600 text-white font-bold text-lg py-4 rounded-xl flex items-center justify-center gap-2 mt-8 shadow-md hover:bg-blue-700 transition-colors"
           >
-            חתמו בדם (היכנסו)
+            התחברות למערכת
           </motion.button>
         </form>
       </motion.div>

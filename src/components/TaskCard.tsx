@@ -1,21 +1,21 @@
 import { motion } from 'framer-motion';
 import type { Task } from '../types';
-import { Clock, User, Users, RefreshCw, AlertTriangle, Ghost } from 'lucide-react';
+import { Clock, User, Users, RefreshCw, AlertTriangle } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import { useAppState } from '../hooks/useAppState';
 
 export const TaskCard = ({ task, onClick, onSwipeRight }: { task: Task; onClick: () => void; onSwipeRight?: (id: string) => void }) => {
   const { userName, partnerName } = useAppState();
-  const isPurgatory = task.status === 'purgatory';
-  const isPardoned = task.status === 'pardoned';
+  const isOverdue = task.status === 'purgatory'; // Keeping internal state name but changing UI
+  const isRescheduled = task.status === 'pardoned';
 
   const getAssigneeConfig = (assignee: string) => {
     switch(assignee) {
-      case 'me': return { label: userName || 'אני', icon: User, color: 'bg-[#1a1a1a] text-[#39FF14] border-[#39FF14]' };
-      case 'partner': return { label: partnerName || 'שותף', icon: User, color: 'bg-[#1a1a1a] text-[#8A0303] border-[#8A0303]' };
-      case 'both': return { label: 'שנינו', icon: Users, color: 'bg-[#1a1a1a] text-purple-500 border-purple-500' };
-      case 'rotation': return { label: 'תורנות', icon: RefreshCw, color: 'bg-[#1a1a1a] text-orange-500 border-orange-500' };
-      default: return { label: userName || 'אני', icon: User, color: 'bg-[#1a1a1a] text-[#39FF14] border-[#39FF14]' };
+      case 'me': return { label: userName || 'אני', icon: User, color: 'bg-blue-50 text-blue-600 border-blue-200' };
+      case 'partner': return { label: partnerName || 'שותף', icon: User, color: 'bg-purple-50 text-purple-600 border-purple-200' };
+      case 'both': return { label: 'שנינו', icon: Users, color: 'bg-pink-50 text-pink-600 border-pink-200' };
+      case 'rotation': return { label: 'תורנות', icon: RefreshCw, color: 'bg-orange-50 text-orange-600 border-orange-200' };
+      default: return { label: userName || 'אני', icon: User, color: 'bg-blue-50 text-blue-600 border-blue-200' };
     }
   };
 
@@ -26,10 +26,10 @@ export const TaskCard = ({ task, onClick, onSwipeRight }: { task: Task; onClick:
   let animateProps = { opacity: 1, y: 0 };
   let transitionProps: Record<string, unknown> = { type: 'spring', bounce: 0.3 };
 
-  if (isPurgatory) {
+  if (isOverdue) {
       animateProps = { ...animateProps, x: [-2, 2, -2, 2, 0] } as never;
       transitionProps = { ...transitionProps, duration: 0.5, repeat: Infinity, repeatType: "reverse", ease: "linear" };
-  } else if (isPardoned) {
+  } else if (isRescheduled) {
       animateProps = { ...animateProps, y: [0, -4, 0] } as never;
       transitionProps = { ...transitionProps, duration: 3, repeat: Infinity, ease: "easeInOut" };
   }
@@ -51,33 +51,33 @@ export const TaskCard = ({ task, onClick, onSwipeRight }: { task: Task; onClick:
       }}
       className={twMerge(
         'p-4 rounded-xl mb-3 cursor-pointer select-none relative overflow-hidden transition-all duration-200 group border-2',
-        isPurgatory ? 'bg-[#2a0808] border-[#8A0303] shadow-[4px_4px_0px_0px_rgba(138,3,3,1)]' :
-        isPardoned ? 'bg-[#0f1f14] border-[#39FF14] shadow-[4px_4px_0px_0px_rgba(57,255,20,0.5)]' :
-        'bg-[#1a1a1a] border-[#333] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:border-gray-500 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]'
+        isOverdue ? 'bg-red-50 border-red-300 shadow-sm' :
+        isRescheduled ? 'bg-green-50 border-green-300 shadow-sm' :
+        'startup-card idle-float bg-white'
       )}
       onClick={onClick}
       dir="rtl"
     >
-      {isPurgatory && (
-        <div className="absolute top-0 right-0 bg-[#8A0303] text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg shadow-[0_0_5px_rgba(138,3,3,1)] flex items-center gap-1 z-10">
+      {isOverdue && (
+        <div className="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg shadow-sm flex items-center gap-1 z-10">
           <AlertTriangle className="w-3 h-3 animate-pulse" />
-          <span className="uppercase tracking-wider">עבר זמנו</span>
+          <span className="uppercase tracking-wider">באיחור</span>
         </div>
       )}
 
-      {isPardoned && (
-        <div className="absolute top-0 right-0 bg-[#39FF14] text-black text-[10px] font-black px-2 py-1 rounded-bl-lg shadow-[0_0_5px_rgba(57,255,20,1)] flex items-center gap-1 z-10">
-          <Ghost className="w-3 h-3 animate-bounce" />
-          <span className="uppercase tracking-wider">חזר מהמתים</span>
+      {isRescheduled && (
+        <div className="absolute top-0 right-0 bg-green-500 text-white text-[10px] font-black px-2 py-1 rounded-bl-lg shadow-sm flex items-center gap-1 z-10">
+          <RefreshCw className="w-3 h-3 animate-bounce" />
+          <span className="uppercase tracking-wider">נדחה</span>
         </div>
       )}
 
       <div className="flex justify-between items-start mt-2">
         <div>
           <h3 className={twMerge('text-lg font-black transition-colors',
-            isPurgatory ? 'text-red-500 drop-shadow-[0_0_5px_rgba(255,0,0,0.5)]' :
-            isPardoned ? 'text-[#39FF14] drop-shadow-[0_0_5px_rgba(57,255,20,0.3)]' :
-            'text-gray-200 group-hover:text-white')}>
+            isOverdue ? 'text-red-600' :
+            isRescheduled ? 'text-green-600' :
+            'text-gray-900')}>
             {task.title}
           </h3>
 
@@ -91,10 +91,10 @@ export const TaskCard = ({ task, onClick, onSwipeRight }: { task: Task; onClick:
 
         {task.deadline && (
           <div className={twMerge(
-            "flex flex-col items-center gap-1 text-xs font-bold border-2 px-2 py-1 rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
-            isPurgatory ? "bg-black border-[#8A0303] text-[#8A0303]" :
-            isPardoned ? "bg-black border-[#39FF14] text-[#39FF14]" :
-            "bg-black border-[#333] text-gray-400"
+            "flex flex-col items-center gap-1 text-xs font-bold border-2 px-2 py-1 rounded-lg shadow-none",
+            isOverdue ? "bg-red-100 border-red-200 text-red-600" :
+            isRescheduled ? "bg-green-100 border-green-200 text-green-600" :
+            "bg-gray-100 border-gray-200 text-gray-600"
           )}>
             <Clock className="w-3 h-3" />
             <span>{task.deadline}</span>
@@ -102,12 +102,7 @@ export const TaskCard = ({ task, onClick, onSwipeRight }: { task: Task; onClick:
         )}
       </div>
 
-      {/* Background decoration for pardoned */}
-      {isPardoned && (
-         <div className="absolute -bottom-4 -left-4 text-4xl opacity-10 rotate-12 pointer-events-none">
-            🧟
-         </div>
-      )}
+
     </motion.div>
   );
 };

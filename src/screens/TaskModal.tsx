@@ -70,7 +70,7 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
   };
 
   return (
-    <div className="relative min-h-[50vh] text-white" dir="rtl">
+    <div className="relative min-h-[50vh] text-gray-900" dir="rtl">
       <AnimatePresence mode="wait">
         {!isEditing ? (
           <motion.div
@@ -83,36 +83,36 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
           >
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h2 className="text-3xl font-bold text-white mb-2">{task?.title}</h2>
-                <p className="text-gray-400">{task?.description || 'אין תיאור למטלה זו.'}</p>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">{task?.title}</h2>
+                <p className="text-gray-500">{task?.description || 'אין תיאור למטלה זו.'}</p>
               </div>
-              <button onClick={() => setIsEditing(true)} className="p-3 bg-white/5 rounded-full hover:bg-white/10">
-                <Edit2 className="w-5 h-5 text-gray-300" />
+              <button onClick={() => setIsEditing(true)} className="p-3 bg-gray-100 rounded-full hover:bg-gray-200">
+                <Edit2 className="w-5 h-5 text-gray-600" />
               </button>
             </div>
 
             {task?.status === 'purgatory' && (
-              <div className="bg-red-500/10 border border-red-500/30 p-4 rounded-xl mb-6 flex flex-col gap-4">
+              <div className="bg-red-50 border border-red-200 p-4 rounded-xl mb-6 flex flex-col gap-4">
                 <div className="flex items-start gap-3">
                     <ShieldAlert className="w-6 h-6 text-red-500 shrink-0" />
                     <div>
-                    <h4 className="text-red-400 font-bold">ממתין לגזר דין!</h4>
-                    <p className="text-sm text-red-300/80 mt-1">המטלה הזו פקעה. השותף יחליט אם לחון או לשלוח לגיהנום.</p>
+                    <h4 className="text-red-600 font-bold">המשימה מתעכבת</h4>
+                    <p className="text-sm text-red-500 mt-1">המשימה חרגה מהזמן. אפשר לתת הזדמנות נוספת או לבטל.</p>
                     </div>
                 </div>
 
                 <div className="flex gap-2">
                     <button onClick={handleResurrect} className="flex-1 bg-green-500/20 text-green-400 border border-green-500/50 py-2 rounded-lg font-bold text-sm hover:bg-green-500 hover:text-black transition-colors flex justify-center items-center gap-1">
-                        <CheckCircle className="w-4 h-4"/> חנינה (הזדמנות שניה)
+                        <CheckCircle className="w-4 h-4"/> הזדמנות שניה
                     </button>
-                    <button onClick={handleReject} className="flex-1 bg-red-500/20 text-red-400 border border-red-500/50 py-2 rounded-lg font-bold text-sm hover:bg-red-500 hover:text-black transition-colors flex justify-center items-center gap-1">
-                        <XCircle className="w-4 h-4"/> דחייה (נכשל)
+                    <button onClick={handleReject} className="flex-1 bg-red-500/20 text-red-600 border border-red-500/50 py-2 rounded-lg font-bold text-sm hover:bg-red-500 hover:text-black transition-colors flex justify-center items-center gap-1">
+                        <XCircle className="w-4 h-4"/> בטל משימה
                     </button>
                 </div>
 
                 <div className="pt-3 border-t border-red-500/20">
-                    <button onClick={handleOverrule} className="w-full text-center text-sm text-gray-400 hover:text-white flex items-center justify-center gap-2">
-                        <Flame className="w-4 h-4"/> עזוב אותי, אני עושה את זה עכשיו
+                    <button onClick={handleOverrule} className="w-full text-center text-sm text-gray-500 hover:text-gray-900 flex items-center justify-center gap-2">
+                        <Flame className="w-4 h-4"/> אני אעשה את זה עכשיו
                     </button>
                 </div>
               </div>
@@ -128,13 +128,13 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
             <div className="mt-auto pt-6 border-t border-white/10 grid grid-cols-2 gap-4 text-sm">
               <div>
                 <span className="text-gray-500 block mb-1">אחראי</span>
-                <span className="text-white flex items-center gap-1">
+                <span className="text-gray-900 flex items-center gap-1">
                     {task?.assignee === 'both' ? <><Umbrella className="w-4 h-4 text-purple-400"/> שנינו</> : task?.assignee}
                 </span>
               </div>
               <div>
                 <span className="text-gray-500 block mb-1">פספוסים</span>
-                <span className="text-red-400 font-bold">{task?.missCount}</span>
+                <span className="text-red-600 font-bold">{task?.missCount}</span>
               </div>
             </div>
           </motion.div>
@@ -147,7 +147,7 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
             transition={{ duration: 0.3 }}
             className="flex flex-col h-full"
           >
-            <h2 className="text-2xl font-bold mb-6 text-white">{task ? 'עריכת מטלה' : 'זימון מטלה חדשה'}</h2>
+            <h2 className="text-2xl font-bold mb-6 text-gray-900">{task ? 'עריכת מטלה' : 'זימון מטלה חדשה'}</h2>
 
             <div className="space-y-6 flex-grow">
               <div>
@@ -156,7 +156,7 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                                    className="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-green-500 transition-colors text-lg"
+                                    className="w-full bg-white border border-gray-300 rounded-xl p-4 text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors text-lg"
                   dir="rtl"
                 />
               </div>
@@ -166,22 +166,22 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setAssignee('me')}
-                    className={`p-3 rounded-lg border text-center flex items-center justify-center gap-2 ${assignee === 'me' ? 'bg-green-500/20 border-green-500 text-green-400' : 'bg-white/5 border-transparent hover:border-white/20'}`}>
+                    className={`p-3 rounded-lg border text-center flex items-center justify-center gap-2 ${assignee === 'me' ? 'bg-blue-50 border-blue-500 text-blue-600 shadow-sm' : 'bg-gray-100 border-transparent hover:border-gray-300'}`}>
                     <User className="w-4 h-4" /> {userName}
                   </button>
                   <button
                     onClick={() => setAssignee('partner')}
-                    className={`p-3 rounded-lg border text-center flex items-center justify-center gap-2 ${assignee === 'partner' ? 'bg-red-500/20 border-red-500 text-red-400' : 'bg-white/5 border-transparent hover:border-white/20'}`}>
+                    className={`p-3 rounded-lg border text-center flex items-center justify-center gap-2 ${assignee === 'partner' ? 'bg-purple-50 border-purple-500 text-purple-600 shadow-sm' : 'bg-gray-100 border-transparent hover:border-gray-300'}`}>
                     {partnerName}
                   </button>
                   <button
                     onClick={() => setAssignee('rotation')}
-                    className={`p-3 rounded-lg border text-center flex items-center justify-center gap-2 ${assignee === 'rotation' ? 'bg-blue-500/20 border-blue-500 text-blue-400' : 'bg-white/5 border-transparent hover:border-white/20'}`}>
+                    className={`p-3 rounded-lg border text-center flex items-center justify-center gap-2 ${assignee === 'rotation' ? 'bg-orange-50 border-orange-500 text-orange-600 shadow-sm' : 'bg-gray-100 border-transparent hover:border-gray-300'}`}>
                     תורנות
                   </button>
                   <button
                     onClick={() => setAssignee('both')}
-                    className={`p-3 rounded-lg border text-center flex items-center justify-center gap-2 ${assignee === 'both' ? 'bg-purple-500/20 border-purple-500 text-purple-400' : 'bg-white/5 border-transparent hover:border-white/20'}`}>
+                    className={`p-3 rounded-lg border text-center flex items-center justify-center gap-2 ${assignee === 'both' ? 'bg-pink-50 border-pink-500 text-pink-600 shadow-sm' : 'bg-gray-100 border-transparent hover:border-gray-300'}`}>
                     <Umbrella className="w-4 h-4" /> יחד
                   </button>
                 </div>
@@ -194,7 +194,7 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
                         <button
                             key={t}
                             onClick={() => setTimeframe(t)}
-                            className={`px-4 py-2 rounded-full border whitespace-nowrap transition-colors ${timeframe === t ? 'bg-white text-black border-white' : 'bg-transparent border-white/20 text-gray-300'}`}
+                            className={`px-4 py-2 rounded-full border whitespace-nowrap transition-colors ${timeframe === t ? 'bg-white text-black border-white' : 'bg-transparent border-gray-300 text-gray-600'}`}
                         >
                             {t}
                         </button>
@@ -202,14 +202,14 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between bg-white/5 p-4 rounded-xl border border-white/5">
+              <div className="flex items-center justify-between bg-gray-100 p-4 rounded-xl border border-white/5">
                 <div>
                     <span className="block text-sm font-bold text-gray-200">לולאה מקוללת (חזרתיות)</span>
                     <span className="text-xs text-gray-500">הסיוט הזה יחזור על עצמו</span>
                 </div>
                 <button
                     onClick={() => setRecurring(!recurring)}
-                    className={`p-2 rounded-full transition-colors ${recurring ? 'bg-green-500 text-black' : 'bg-white/10 text-gray-400'}`}
+                    className={`p-2 rounded-full transition-colors ${recurring ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md' : 'bg-gray-200 text-gray-500'}`}
                 >
                     <Repeat className="w-5 h-5" />
                 </button>
@@ -221,14 +221,14 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
               whileTap={{ scale: 0.95 }}
               onClick={handleSave}
               disabled={isLoading || !title}
-              className={`mt-8 w-full font-bold text-lg py-4 rounded-xl flex items-center justify-center gap-2 transition-colors ${isLoading || !title ? 'bg-gray-700 text-gray-400' : 'bg-green-500 text-black'}`}
+              className={`mt-8 w-full font-bold text-lg py-4 rounded-xl flex items-center justify-center gap-2 transition-colors ${isLoading || !title ? 'bg-gray-700 text-gray-500' : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md'}`}
             >
               {isLoading ? (
                   <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}>
                       ⏳
                   </motion.div>
               ) : (
-                  <><Save className="w-5 h-5" /> קבע עובדה</>
+                  <><Save className="w-5 h-5" /> שמור משימה</>
               )}
             </motion.button>
           </motion.div>

@@ -1,14 +1,14 @@
 # Chores in Hell - AI Configuration
 
 ## Vibe & Tone
-*   **Theme:** Hellish, Purgatory, Dark, Cynical humor.
-*   **Tone:** Sarcastic metalhead. Tasks are not "completed", they are "burned" or "sent to the void". Failures are "damned to Purgatory".
-*   **Language:** Hebrew (RTL). Greetings should be somewhat cynical (e.g., "בוקר טוב, סאנשיין").
+*   **Theme:** Israeli Advanced Startup, Clean, High-tech.
+*   **Tone:** Cool, poppy, neat, professional yet highly playful and dynamic.
+*   **Language:** Hebrew (RTL).
 *   **No English UI:** Absolutely no English text should be visible to the end user.
 
 ## Technologies
 *   React (with TypeScript) + Vite
-*   Tailwind CSS (Dark mode optimized, logical properties required).
+*   Tailwind CSS (Startup Clean optimized, logical properties required).
 *   Supabase (Database, Auth, Realtime) - **Note: Currently using Mock State + LocalStorage until fully connected.**
 *   Framer Motion (for buttery smooth 120fps animations)
 *   vite-plugin-pwa (for Mobile PWA capabilities)
