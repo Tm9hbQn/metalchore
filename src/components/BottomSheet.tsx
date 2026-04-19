@@ -1,7 +1,29 @@
 import type { ReactNode } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const BottomSheet = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => void; children: ReactNode }) => {
+  useEffect(() => {
+    if (isOpen) {
+      window.history.pushState({ bottomSheet: true }, '');
+      const handlePopState = () => {
+        onClose();
+      };
+      window.addEventListener('popstate', handlePopState);
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+      };
+    }
+  }, [isOpen, onClose]);
+
+  const handleBackdropClick = () => {
+    if (window.history.state && window.history.state.bottomSheet) {
+      window.history.back();
+    } else {
+      onClose();
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -10,7 +32,7 @@ export const BottomSheet = ({ isOpen, onClose, children }: { isOpen: boolean; on
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
+            onClick={handleBackdropClick}
             className="fixed inset-0 bg-black/80 z-40 backdrop-blur-sm"
           />
           <motion.div
