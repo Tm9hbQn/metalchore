@@ -1,11 +1,14 @@
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { useState, useEffect } from 'react';
 import { AppStateProvider } from './context/AppStateProvider';
+import { KittenProvider } from './context/KittenProvider';
+import { useKittenAI } from './hooks/useKittenAI';
 import type { Task } from './types';
 import { Home } from './screens/Home';
 import { Settings } from './screens/Settings';
 import { Cemetery } from './screens/Cemetery';
 import { SecretAltar } from './screens/SecretAltar';
+import { UndeadKitten } from './components/UndeadKitten/UndeadKitten';
 import { TaskModal } from './screens/TaskModal';
 import { Login } from './screens/Login';
 import { WeeklyView } from './screens/WeeklyView';
@@ -29,6 +32,7 @@ const PRELOADER_TEXTS = [
 ];
 
 const MainApp = () => {
+  useKittenAI();
   const [appState, setAppState] = useState<'pact' | 'preloader' | 'splash' | 'main'>(() => localStorage.getItem('chores_user') ? 'preloader' : 'pact');
   const [currentTab, setCurrentTab] = useState<TabType>('home');
   const [showSecretAltar, setShowSecretAltar] = useState(false);
@@ -169,8 +173,8 @@ const MainApp = () => {
 
 export default function App() {
   return (
-    <ErrorBoundary><AppStateProvider>
-      <MainApp />
-    </AppStateProvider></ErrorBoundary>
+    <ErrorBoundary><KittenProvider><AppStateProvider>
+      <MainApp /><UndeadKitten />
+    </AppStateProvider></KittenProvider></ErrorBoundary>
   );
 }

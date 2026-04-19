@@ -1,0 +1,171 @@
+.undead-kitten {
+    /* Base styles already in component inline */
+}
+
+/* Base states */
+.cat-tail {
+    animation: tail-swish 4s infinite ease-in-out;
+}
+.cat-ear-right, .cat-ear-left {
+    animation: ear-flick 6s infinite;
+}
+.cat-eye-left, .cat-eye-right {
+    animation: eye-glow 3s infinite alternate;
+}
+
+/* idle */
+.undead-kitten.idle .cat-torso {
+    animation: breathe 3s infinite ease-in-out;
+}
+.undead-kitten.idle .cat-head {
+    animation: head-bob 3s infinite ease-in-out;
+}
+
+/* walk */
+.undead-kitten.walk .cat-torso {
+    animation: walk-bounce 0.5s infinite alternate;
+}
+.undead-kitten.walk .cat-leg-front-right,
+.undead-kitten.walk .cat-leg-back-left {
+    animation: leg-swing 0.5s infinite alternate;
+}
+.undead-kitten.walk .cat-leg-front-left,
+.undead-kitten.walk .cat-leg-back-right {
+    animation: leg-swing 0.5s infinite alternate-reverse;
+}
+.undead-kitten.walk .cat-tail {
+    animation: tail-walk 1s infinite alternate;
+}
+
+/* sit */
+.undead-kitten.sit .cat-torso {
+    transform: rotate(-20deg) translateY(5px);
+    transition: all 0.3s ease;
+}
+.undead-kitten.sit .cat-head {
+    transform: rotate(10deg) translateX(5px) translateY(-5px);
+    transition: all 0.3s ease;
+}
+.undead-kitten.sit .cat-leg-back-left,
+.undead-kitten.sit .cat-leg-back-right {
+    transform: rotate(-60deg) translateX(-5px) translateY(5px);
+    height: 6px;
+    width: 12px;
+    transition: all 0.3s ease;
+}
+.undead-kitten.sit .cat-tail {
+    transform: rotate(-40deg);
+    animation: none;
+    transition: all 0.3s ease;
+}
+
+/* lick (grooming) */
+.undead-kitten.lick .cat-torso {
+    transform: rotate(-30deg) translateY(10px);
+}
+.undead-kitten.lick .cat-leg-back-left {
+    transform: rotate(-80deg) translateY(-15px);
+    height: 15px;
+}
+.undead-kitten.lick .cat-head {
+    animation: groom-head 1s infinite;
+}
+
+/* alert */
+.undead-kitten.alert .cat-ear-left,
+.undead-kitten.alert .cat-ear-right {
+    transform: rotate(0deg) scaleY(1.5);
+    animation: none;
+}
+.undead-kitten.alert .cat-tail {
+    transform: rotate(-90deg) scaleX(1.2);
+    animation: tail-bristle 0.1s infinite;
+}
+
+/* prep-jump */
+.undead-kitten.prep-jump .cat-torso {
+    transform: scaleY(0.7) translateY(10px);
+    transition: all 0.2s ease;
+}
+.undead-kitten.prep-jump .cat-head {
+    transform: translateY(10px);
+    transition: all 0.2s ease;
+}
+.undead-kitten.prep-jump .cat-tail {
+    transform: rotate(20deg);
+}
+
+/* jump */
+.undead-kitten.jump .cat-torso {
+    transform: scaleY(1.2) rotate(15deg);
+    transition: all 0.1s ease;
+}
+.undead-kitten.jump .cat-leg-front-left,
+.undead-kitten.jump .cat-leg-front-right {
+    transform: rotate(45deg);
+}
+.undead-kitten.jump .cat-leg-back-left,
+.undead-kitten.jump .cat-leg-back-right {
+    transform: rotate(-45deg);
+}
+
+/* sleep */
+.undead-kitten.sleep .cat-torso {
+    transform: scaleY(0.6) translateY(15px);
+}
+.undead-kitten.sleep .cat-head {
+    transform: translateY(20px) rotate(-45deg);
+}
+.undead-kitten.sleep .cat-eye-left,
+.undead-kitten.sleep .cat-eye-right {
+    opacity: 0.1;
+    height: 1px;
+    animation: none;
+}
+.undead-kitten.sleep .cat-tail {
+    transform: rotate(-180deg) translateX(-10px);
+}
+
+/* Animations */
+@keyframes tail-swish {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-20deg); }
+}
+@keyframes tail-walk {
+    0% { transform: rotate(10deg); }
+    100% { transform: rotate(-30deg); }
+}
+@keyframes tail-bristle {
+    0% { transform: rotate(-90deg) translateX(1px); }
+    100% { transform: rotate(-90deg) translateX(-1px); }
+}
+@keyframes ear-flick {
+    0%, 90%, 100% { transform: rotate(12deg); }
+    92% { transform: rotate(0deg); }
+    94% { transform: rotate(20deg); }
+    96% { transform: rotate(12deg); }
+}
+@keyframes eye-glow {
+    0% { box-shadow: 0 0 5px rgba(57,255,20,0.8); }
+    100% { box-shadow: 0 0 15px rgba(57,255,20,1); }
+}
+@keyframes breathe {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.05); }
+}
+@keyframes head-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(2px); }
+}
+@keyframes walk-bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-4px); }
+}
+@keyframes leg-swing {
+    0% { transform: rotate(-20deg); }
+    100% { transform: rotate(20deg); }
+}
+@keyframes groom-head {
+    0%, 100% { transform: rotate(30deg) translateX(5px) translateY(10px); }
+    50% { transform: rotate(45deg) translateX(10px) translateY(15px); }
+}

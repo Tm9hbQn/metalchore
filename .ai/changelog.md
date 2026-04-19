@@ -14,3 +14,4 @@
 *   **c0171b6**: Redesigned UI to combine the metal and startup aesthetics. Introduced and integrated the BottomNav navigation component into the application's layout.
 *   **210a325**: Implemented a comprehensive UI overhaul directly adhering to the instructions outlined in the master PRD.
 *   **184297f**: Fixed repository structure issues, resolved build errors, scaffolded `AppStateProvider`, and properly configured Vite and `tsconfig` files for deployment to GitHub Pages.
+*   **feat(undead-kitten):** Implemented an "undead kitten" site companion. The kitten uses Framer Motion and custom CSS keyframes for various states (idle, walk, jump, sit, etc.) and periodically picks elements on the screen to pathfind towards using a custom `useKittenAI` hook and `KittenContext` for global state management. Added hiding/peeking animations on route changes via `BottomNav`.

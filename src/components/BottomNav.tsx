@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Flame, Skull, Settings, CalendarDays } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
+import { useKitten } from '../hooks/useKitten';
 
 export type TabType = 'home' | 'weekly' | 'cemetery' | 'settings';
 
@@ -10,8 +11,15 @@ interface BottomNavProps {
 }
 
 export const BottomNav = ({ currentTab, setCurrentTab }: BottomNavProps) => {
-  // In RTL, the array is rendered from right to left natively by flex.
-  // We want Home to be on the far right, so it should be the FIRST item in the array for an RTL container with default flex-row.
+  const { triggerTransition } = useKitten();
+
+  const handleTabClick = (tabId: TabType) => {
+    if (currentTab !== tabId) {
+        triggerTransition();
+        setCurrentTab(tabId);
+    }
+  };
+
   const tabs = [
     { id: 'home', label: 'ראשי', icon: Flame },
     { id: 'weekly', label: 'לו"ז שבועי', icon: CalendarDays },
@@ -29,7 +37,7 @@ export const BottomNav = ({ currentTab, setCurrentTab }: BottomNavProps) => {
             <motion.button
               key={tab.id}
               whileTap={{ scale: 0.9 }}
-              onClick={() => setCurrentTab(tab.id as TabType)}
+              onClick={() => handleTabClick(tab.id as TabType)}
               className={twMerge(
                 'flex flex-col items-center justify-center w-full h-full gap-1 transition-colors relative',
                 isActive ? 'text-black' : 'text-gray-400 hover:text-gray-600'
