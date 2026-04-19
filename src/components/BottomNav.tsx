@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
-import { Flame, Skull, Settings, CalendarDays } from 'lucide-react';
+import { Home, CheckCircle, Settings, CalendarDays } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
-import { useKitten } from '../hooks/useKitten';
 
 export type TabType = 'home' | 'weekly' | 'cemetery' | 'settings';
 
@@ -11,19 +10,17 @@ interface BottomNavProps {
 }
 
 export const BottomNav = ({ currentTab, setCurrentTab }: BottomNavProps) => {
-  const { triggerTransition } = useKitten();
-
   const handleTabClick = (tabId: TabType) => {
     if (currentTab !== tabId) {
-        triggerTransition();
+
         setCurrentTab(tabId);
     }
   };
 
   const tabs = [
-    { id: 'home', label: 'ראשי', icon: Flame },
+    { id: 'home', label: 'ראשי', icon: Home },
     { id: 'weekly', label: 'לו"ז שבועי', icon: CalendarDays },
-    { id: 'cemetery', label: 'בית קברות', icon: Skull },
+    { id: 'cemetery', label: 'הושלמו', icon: CheckCircle },
     { id: 'settings', label: 'הגדרות', icon: Settings },
   ] as const;
 
@@ -43,12 +40,12 @@ export const BottomNav = ({ currentTab, setCurrentTab }: BottomNavProps) => {
                 isActive ? 'text-black' : 'text-gray-400 hover:text-gray-600'
               )}
             >
-              <Icon className={twMerge('w-6 h-6', isActive ? 'text-red-600' : '')} />
+              <Icon className={twMerge('w-6 h-6', isActive ? 'text-blue-500' : '')} />
               <span className={twMerge("text-[10px] font-bold", isActive ? "text-black" : "text-gray-400")}>{tab.label}</span>
               {isActive && (
                 <motion.div
                   layoutId="bottom-nav-indicator"
-                  className="absolute -top-2 w-8 h-1 bg-red-600 rounded-full"
+                  className="absolute -top-2 w-8 h-1 bg-blue-500 rounded-full"
                   transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                 />
               )}
