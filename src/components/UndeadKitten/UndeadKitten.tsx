@@ -45,7 +45,7 @@ export const UndeadKitten = () => {
 
   return (
     <motion.div
-      className={`fixed z-[999] pointer-events-none undead-kitten ${currentAction}`}
+      className={`fixed top-0 left-0 z-[999] pointer-events-none undead-kitten ${currentAction}`}
       animate={{
         x: position.x,
         y: position.y,
