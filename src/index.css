@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-hell-bg: #f9fafb; /* Light, inviting background */
-  --color-hell-card: #ffffff; /* Solid white cards */
-  --color-hell-border: #e5e7eb; /* Soft border */
+  --color-hell-bg: #0a0a0a; /* Light, inviting background */
+  --color-hell-card: #1a1a1a; /* Solid white cards */
+  --color-hell-border: #333333; /* Soft border */
   --color-toxic-neon: #39FF14;
   --color-blood-red: #8A0303;
-  --color-dark-metal: #111827; /* Dark text for contrast */
+  --color-dark-metal: #e5e7eb; /* Dark text for contrast */
 }
 
 @layer base {
@@ -29,19 +29,19 @@
 
   /* Brutalist style card for punches */
   .metal-card {
-    background-color: white;
-    border: 2px solid black;
-    box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+    background-color: var(--color-hell-card);
+    border: 2px solid var(--color-hell-border);
+    box-shadow: 4px 4px 0px 0px rgba(138,3,3,0.8);
     transition: all 0.2s ease-in-out;
   }
 
   .metal-card:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px 0px rgba(0,0,0,1);
+    box-shadow: 6px 6px 0px 0px rgba(138,3,3,1);
   }
 
   .metal-card:active {
     transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+    box-shadow: 2px 2px 0px 0px rgba(138,3,3,1);
   }
 }

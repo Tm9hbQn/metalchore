@@ -50,7 +50,7 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
 
   const handleResurrect = () => {
       if(!task) return;
-      setTasks(prev => prev.map(t => t.id === task.id ? { ...t, status: 'active', deadline: 'היום' } : t));
+      setTasks(prev => prev.map(t => t.id === task.id ? { ...t, status: 'pardoned', deadline: 'היום' } : t));
       addLog(`Pardoned task ${task.id}`);
       onClose();
   };
@@ -156,8 +156,7 @@ export const TaskModal = ({ task, onClose }: { task: Task | null; onClose: () =>
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  autoFocus
-                  className="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-green-500 transition-colors text-lg"
+                                    className="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-green-500 transition-colors text-lg"
                   dir="rtl"
                 />
               </div>

@@ -9,6 +9,7 @@ import confetti from 'canvas-confetti';
 export const Home = ({ onTaskClick }: { onTaskClick: (task: Task | null) => void; }) => {
   const { tasks, setTasks, addLog } = useAppState();
   const [toast, setToast] = useState<{ id: string; title: string } | null>(null);
+  const [viewMode, setViewMode] = useState<'me' | 'partner'>('me');
 
   const triggerConfetti = () => {
     confetti({
@@ -57,13 +58,22 @@ export const Home = ({ onTaskClick }: { onTaskClick: (task: Task | null) => void
     return () => clearTimeout(timer);
   }, [toast]);
 
+
   const activeTasks = tasks.filter((t: Task) => t.status !== 'failed' && t.status !== 'done');
 
-  // Sorting: My tasks -> Shared tasks -> Partner tasks -> Rotation
-  const sortedTasks = [...activeTasks].sort((a, b) => {
-      const order = { 'me': 1, 'both': 2, 'partner': 3, 'rotation': 4 };
-      return order[a.assignee] - order[b.assignee];
+  // Filter by view mode (always include shared)
+  const viewTasks = activeTasks.filter(t => {
+      if (t.assignee === 'both' || t.assignee === 'rotation') return true;
+      if (viewMode === 'me' && t.assignee === 'me') return true;
+      if (viewMode === 'partner' && t.assignee === 'partner') return true;
+      return false;
   });
+
+  // Group by deadline
+  const todayTasks = viewTasks.filter(t => t.deadline === 'היום' || t.status === 'purgatory' || t.status === 'pardoned');
+  const tomorrowTasks = viewTasks.filter(t => t.deadline === 'מחר');
+  const otherTasks = viewTasks.filter(t => t.deadline !== 'היום' && t.deadline !== 'מחר' && t.status !== 'purgatory' && t.status !== 'pardoned');
+
 
   return (
     <div className="pb-24 relative min-h-[80vh]" dir="rtl">
@@ -89,34 +99,93 @@ export const Home = ({ onTaskClick }: { onTaskClick: (task: Task | null) => void
         </motion.div>
       </div>
 
+
       <main className="p-4 pt-6 relative z-10">
 
+        {/* View Toggle */}
+        <div className="flex bg-[#1a1a1a] p-1 rounded-xl mb-6 border border-[#333] shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+            <button
+                onClick={() => setViewMode('me')}
+                className={`flex-1 py-3 text-sm font-black rounded-lg transition-all duration-300 ${viewMode === 'me' ? 'bg-[#39FF14] text-black shadow-[0_0_15px_rgba(57,255,20,0.5)]' : 'text-gray-500 hover:text-gray-300'}`}
+            >
+                המטלות שלי
+            </button>
+            <button
+                onClick={() => setViewMode('partner')}
+                className={`flex-1 py-3 text-sm font-black rounded-lg transition-all duration-300 ${viewMode === 'partner' ? 'bg-[#8A0303] text-white shadow-[0_0_15px_rgba(138,3,3,0.5)]' : 'text-gray-500 hover:text-gray-300'}`}
+            >
+                המטלות שלו/ה
+            </button>
+        </div>
 
-        <h2 className="text-sm text-red-600 mb-4 font-bold tracking-wider uppercase flex items-center gap-2">
-            <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
-            העינויים שלכם להיום
-        </h2>
+        {todayTasks.length > 0 && (
+            <div className="mb-8">
+                <h2 className="text-xl text-[#39FF14] mb-4 font-black tracking-widest uppercase flex items-center gap-2 drop-shadow-[0_0_5px_rgba(57,255,20,0.5)]">
+                    <span className="w-3 h-3 bg-[#39FF14] rounded-sm animate-pulse" />
+                    העינויים של היום
+                </h2>
+                <AnimatePresence mode="popLayout">
+                {todayTasks.map((task: Task) => (
+                    <TaskCard
+                    key={task.id}
+                    task={task}
+                    onClick={() => onTaskClick(task)}
+                    onSwipeRight={handleSwipeRight}
+                    />
+                ))}
+                </AnimatePresence>
+            </div>
+        )}
 
-        <AnimatePresence mode="popLayout">
-          {sortedTasks.map((task: Task) => (
-            <TaskCard
-              key={task.id}
-              task={task}
-              onClick={() => onTaskClick(task)}
-              onSwipeRight={handleSwipeRight}
-            />
-          ))}
-        </AnimatePresence>
+        {tomorrowTasks.length > 0 && (
+            <div className="mb-8 opacity-80">
+                <h2 className="text-md text-gray-400 mb-4 font-bold tracking-wider uppercase flex items-center gap-2">
+                    <span className="w-2 h-2 bg-gray-500 rounded-full" />
+                    מחר נבכה
+                </h2>
+                <AnimatePresence mode="popLayout">
+                {tomorrowTasks.map((task: Task) => (
+                    <TaskCard
+                    key={task.id}
+                    task={task}
+                    onClick={() => onTaskClick(task)}
+                    onSwipeRight={handleSwipeRight}
+                    />
+                ))}
+                </AnimatePresence>
+            </div>
+        )}
 
-        {sortedTasks.length === 0 && (
+        {otherTasks.length > 0 && (
+            <div className="mb-8 opacity-60">
+                <h2 className="text-sm text-gray-500 mb-4 font-bold tracking-wider uppercase flex items-center gap-2">
+                    <span className="w-2 h-2 bg-gray-600 rounded-full" />
+                    מתישהו בגיהנום
+                </h2>
+                <AnimatePresence mode="popLayout">
+                {otherTasks.map((task: Task) => (
+                    <TaskCard
+                    key={task.id}
+                    task={task}
+                    onClick={() => onTaskClick(task)}
+                    onSwipeRight={handleSwipeRight}
+                    />
+                ))}
+                </AnimatePresence>
+            </div>
+        )}
+
+        {viewTasks.length === 0 && (
+
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center mt-20 text-gray-800 flex flex-col items-center bg-white border-2 border-red-900 p-8 rounded-2xl shadow-[4px_4px_0px_0px_rgba(127,29,29,1)]"
+            className="text-center mt-20 text-gray-300 flex flex-col items-center bg-[#1a1a1a] border-2 border-[#333] p-8 rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
             <span className="text-6xl mb-4 grayscale drop-shadow-md">🥶</span>
-            <p className="text-xl font-black text-black">הגיהנום קפא.</p>
-            <p className="mt-2 text-gray-600 text-sm font-medium">פנויים להיום. לכו תנוחו לפני שייזכרו בכם.</p>
+            <p className="text-xl font-black text-white">הגיהנום קפא.</p>
+            <p className="mt-2 text-gray-400 text-sm font-medium">אין עינויים כרגע. אפשר לחזור לישון במערה.</p>
+
           </motion.div>
         )}
       </main>
